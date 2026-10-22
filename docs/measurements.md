@@ -20,11 +20,25 @@ Device IDs are capture-local views. PnP paths identify Windows nodes, not a guar
 
 ## Frames, CPU and GPU
 
+### Application stage markers
+
+The Game pipeline view consumes existing PCL/Reflex TraceLogging and Intel PresentMon application timing events. It never injects into a game or generates input. PCL event markers 0..5 identify simulation start/end, render submission start/end and Present start/end. Intel events can additionally provide sleep start/end and an application input-sample marker. PCL synthetic latency-ping markers are deliberately excluded from physical-input measurements.
+
+The collector does not generate diagnostic pings itself. A game's own PC Latency Stats instrumentation can generate its SDK's ping messages while statistics are enabled; those are not treated as physical mouse, keyboard or controller reports. A PCL initialization event resets that process/provider's pending pairs so markers are not paired across instrumentation reinitialization.
+
+Pairing requires the same process ID, provider and frame ID. PCL frame IDs retain all 64 bits; exported frame IDs are decimal strings to avoid JSON/JavaScript integer rounding. Providers and processes are never merged solely because timestamps are close. Missing, unsupported or reversed boundaries do not create a zero-duration sample. Identical duplicate timestamps are ignored; contradictory duplicates flag the frame as conflicting. The first valid historical pairs may remain in aggregate statistics, so review conflicts/coverage before interpreting them. Pending frame state is bounded to 512 records and the report keeps the latest 64 observed frame records.
+
+The view shows simulation, simulation-to-submission gap, render submission, submission-to-Present gap, Present, sleep, input-sample-to-Present and an aggregate simulation-start-to-Present-end interval when the required boundaries exist. These are elapsed wall-clock intervals around application-defined work and waits. They are not exclusive CPU execution times, and overlapping aggregate/child intervals must not be added.
+
+An application input-sample marker is not a USB reception timestamp and does not identify a particular physical report. This view does not correlate a marker frame with a specific PresentMon GPU/display record. USB-to-game latency, each third-party filter's per-input latency, physical display response and uninstrumented internal game functions remain unmeasured. Application instrumentation must be correctly placed by its author; registering a provider does not verify that placement. The pipeline collector has been validated with an owned marker emitter and schema/identity tests, not Fortnite or every commercial game.
+
 PresentMon uses graphics ETW events, separated by PID and swap chain. Some durations are reconstructed and require supported drivers, display events or application instrumentation. Blank fields remain unmeasured. A process may expose several swap chains. A reported display event is not a light sensor reading; monitor scan-out and pixel transition behavior cannot be independently verified here.
 
 If the full graphics pipeline produces no rows for ten seconds, capture automatically retries with CPU/Present-only tracing. This helps graphics stacks that do not provide the required GPU/display events, including some virtual machines. In that mode only CPU busy/wait, presentation interval and Present API duration are collected; GPU/display/input-to-display fields are excluded. Report & coverage identifies the fallback. Selecting a game or starting a new session retries full tracing.
 
 Kernel ISR/DPC durations describe system activity. ReadyThread/CSwitch pairs describe observed waits between a thread becoming ready and running. Only paired, known transitions contribute. Events lost by ETW or unobserved transitions limit coverage. These numbers do not by themselves establish that a game or input was delayed. Thread filtering uses known thread ownership; unowned events are not guessed.
+
+Driver attribution resolves the DPC/ISR entry routine address to a loaded kernel image range. An initial driver snapshot is supplemented by supported kernel image load/unload events. Unknown addresses remain unresolved and contribute to an unresolved-attribution flag. Per-driver values are inclusive elapsed routine intervals in microseconds and can include nested interrupts/preemption. They are not exclusive driver CPU time, not request residence time and not a critical-path allocation to the selected game or a particular input. Framework entry routines can resolve to the framework module instead of the vendor callback it invokes. Drivers that process input without a DPC/ISR are not covered by this breakdown.
 
 Timer wake lateness measures the inspector worker's lateness against a nominal 1 ms timer schedule. It includes collector execution and host scheduling effects. It is not the selected game's scheduling delay. CPU percentages are normalized across logical processors. Inspector CPU/memory measurements exclude its separate PresentMon process and some kernel trace overhead.
 
@@ -49,3 +63,6 @@ The initial release was built with warnings treated as errors and tested for bou
 - [Microsoft: DiskIo event data](https://learn.microsoft.com/en-us/windows/win32/etw/diskio-typegroup1)
 - [Microsoft: low-latency audio](https://learn.microsoft.com/en-us/windows-hardware/drivers/audio/low-latency-audio)
 - [Intel: PresentMon console metrics](https://github.com/GameTechDev/PresentMon/blob/v2.6.0/README-ConsoleApplication.md)
+- [NVIDIA: PC latency markers and their measurement boundaries](https://developer.nvidia.com/blog/?p=64245)
+- [Microsoft: DPC/ISR attribution by module and inclusive/exclusive duration](https://learn.microsoft.com/en-us/windows-hardware/test/wpt/cpu-analysis)
+- [Intel: public PCL marker schema](https://github.com/GameTechDev/PresentMon/blob/v2.6.0/PresentData/ETW/Nvidia_PCL.h)

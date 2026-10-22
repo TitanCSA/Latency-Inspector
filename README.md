@@ -8,9 +8,9 @@
 
 ## Get started
 
-1. Download **Latency-Inspector-1.0.0-Windows-x64.zip** from Releases and extract the whole folder.
+1. Download **Latency-Inspector-1.1.0-Windows-x64.zip** from Releases and extract the whole folder.
 2. Run **LatencyInspector.exe**. Accept the administrator prompt for Windows kernel tracing.
-3. Select your game in the process list, or keep **All graphics processes**. Changing the selection starts a fresh measurement session.
+3. Open your game and select it in the process list. **Game pipeline** shows stages emitted by compatible instrumented applications, matched by PID, provider and frame ID. Missing stages remain unmeasured. Changing the selection starts a fresh measurement session.
 4. Play normally. Select a category or input device to inspect its graphs. Click a graph card for its exact definition.
 5. Use **Export report** to save measurements, percentiles, device identities and collector status as JSON.
 
@@ -23,7 +23,8 @@ Windows 10 version 2004 or later / Windows 11, x64. No runtime installation, acc
 | Keyboard, mouse and HID controllers | Separate Windows Raw Input device views, message intervals and handler time; includes supported Windows HID views of gamepads. |
 | Xbox / XInput / GIP | XInput state-query cost and packet-change intervals per slot; HID views when Windows exposes them; optional passive kernel transport observations. |
 | Frames and GPU | Present intervals, CPU busy/wait, GPU busy/wait and queueing timelines, Present API time and software display estimates through Intel PresentMon. Availability depends on the game, graphics driver and presentation mode. |
-| CPU and system | ISR/DPC duration, observed thread ready-to-running waits, timer wake lateness, hard faults, CPU and memory usage. |
+| Game pipeline | Actual application marker pairs for simulation, render submission, Present and supported sleep/input-sample boundaries. PCL/Reflex and Intel application events are matched by PID, provider and full frame ID. No process injection is used. |
+| CPU and system | ISR/DPC duration, including containing driver-image names where resolvable; observed thread ready-to-running waits, timer wake lateness, hard faults, CPU and memory usage. |
 | Network | Synthetic IPv4 ICMP RTT, successive RTT variation, unanswered probes and TCP port 443 connection setup. Set the target in the top bar. These are separate from the game's network traffic. |
 | Storage | Kernel disk read/write response times, plus selected-process I/O volume and attributed disk timings when issuing-thread ownership is available. |
 | Audio | WASAPI default, minimum and current shared-engine periods, where exposed by the endpoint. |
@@ -35,6 +36,8 @@ Capture runs independently of graph updates. Graphs keep a bounded rolling windo
 **Measured** means an elapsed interval between software timestamps. **Reported** means a value exposed by Windows. **Estimated** means a reconstructed timeline. A missing measurement stays unavailable; it is not displayed as zero latency.
 
 Software alone cannot measure every physical delay. Input message cadence is not switch-to-game latency; an outstanding read includes waiting for input; PresentMon display estimates are not optical pixel measurements; audio periods are not physical sound latency. External hardware or application instrumentation is needed for those stages. See the [measurement guide](docs/measurements.md).
+
+**Attribution has explicit boundaries.** The game-marker view measures elapsed time between markers for the same frame; this includes both work and waits. A driver DPC/ISR value is an inclusive routine interval, not proof that a mouse report spent that time in that driver. This version does not establish a USB-report-to-game-consumption link, isolate every third-party input filter's processing time, or join the new marker timeline to a particular GPU/display event. Those totals remain unmeasured rather than guessed. Fortnite-specific marker availability and accuracy have not been validated.
 
 ### Optional kernel probe
 
