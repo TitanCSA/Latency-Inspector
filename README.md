@@ -8,7 +8,7 @@
 
 ## Get started
 
-1. Download **Latency-Inspector-1.1.0-Windows-x64.zip** from Releases and extract the whole folder.
+1. Download **Latency-Inspector-1.1.1-Windows-x64.zip** from Releases and extract the whole folder.
 2. Run **LatencyInspector.exe**. Accept the administrator prompt for Windows kernel tracing.
 3. Open your game and select it in the process list. **Game pipeline** shows stages emitted by compatible instrumented applications, matched by PID, provider and frame ID. Missing stages remain unmeasured. Changing the selection starts a fresh measurement session.
 4. Play normally. Select a category or input device to inspect its graphs. Click a graph card for its exact definition.
@@ -43,9 +43,9 @@ Software alone cannot measure every physical delay. Input message cadence is not
 
 The passive KMDF filter records input request submission/completion timestamps, lengths and status codes. It never records report contents, changes inputs, blocks devices or creates virtual controllers. Association is per device; Windows class-wide filter lists are not modified.
 
-**The initial kernel probe is awaiting Microsoft signing.** This release works with the Windows/software collectors now. The unsigned probe is not distributed or installed by this release. The **Kernel probe** page explains availability; the signed driver package will be added after signing and validation.
+The complete download includes the **Microsoft-signed kernel probe** in the `Driver` folder. No test certificate, test-signing mode or Windows security change is required. Windows/software collectors also work without installing the optional probe.
 
-With a future signed package, use **Install / associate probe**, then restart Windows. New device associations also require a restart. **Remove probe** removes only this filter's associations and preserves other drivers. The console equivalent is `LatencyProbeSetup.exe /install`, `/uninstall` or `/status`; exit code `3010` means restart required. Setup retains the staged driver package during removal so active stacks remain safe until restart.
+Open **Kernel probe** and use **Install / associate probe**, then restart Windows. New device associations also require a restart. **Remove probe** removes only this filter's associations and preserves other drivers. The console equivalent is `LatencyProbeSetup.exe /install`, `/uninstall` or `/status`; exit code `3010` means restart required. Setup retains the staged driver package during removal so active stacks remain safe until restart.
 
 ## Reproducible capture
 
