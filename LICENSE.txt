@@ -1,0 +1,15 @@
+Latency Inspector - Copyright (c) 2026 TitanCSA. All rights reserved.
+
+Permission is granted to download, run and redistribute unmodified public
+binary releases of Latency Inspector for personal or commercial use, provided
+this notice and all third-party license notices remain included. This grant
+does not grant access to or a license to the private source code, or permission
+to redistribute modified releases under the project's name.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+PURPOSE AND NONINFRINGEMENT. TO THE EXTENT PERMITTED BY LAW, THE AUTHORS ARE
+NOT LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY ARISING FROM ITS USE.
+
+Bundled third-party components retain their own licenses. The PresentMon
+component is distributed under its separate MIT license, included in releases.
