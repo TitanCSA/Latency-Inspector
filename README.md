@@ -2,6 +2,17 @@
 
 **Windows gaming latency analyzer for input devices, CPU/GPU frames, scheduling, network, storage and audio.**
 
+<!-- full-version-contact:start -->
+> [!IMPORTANT]
+> **Get the full version without demo restrictions**
+>
+> **Discord username: `titancsa`**
+>
+> Open Discord, choose **Friends > Add Friend**, enter **`titancsa`**, then send a direct message. Ask for the **full version without the demo time limit**, and mention **Latency Inspector**.
+>
+> Tell me whether you need personal use, business integration or OEM redistribution, and ask for pricing and license / activation instructions.
+<!-- full-version-contact:end -->
+
 [Download for Windows x64](https://github.com/TitanCSA/Latency-Inspector/releases/latest) · [Measurement guide](docs/measurements.md) · [Report an issue](https://github.com/TitanCSA/Latency-Inspector/issues)
 
 ![Latency Inspector dashboard](docs/dashboard.png)
