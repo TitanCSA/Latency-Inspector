@@ -4,13 +4,13 @@
 
 <!-- full-version-contact:start -->
 > [!IMPORTANT]
-> **Get the full version without demo restrictions**
+> **Full version and commercial licensing**
 >
 > **Discord username: `titancsa`**
 >
-> Open Discord, choose **Friends > Add Friend**, enter **`titancsa`**, then send a direct message. Ask for the **full version without the demo time limit**, and mention **Latency Inspector**.
+> Open Discord, choose **Friends > Add Friend**, enter **`titancsa`**, then send a direct message. Mention **Latency Inspector** and ask about the **full / production version, commercial use or OEM redistribution**.
 >
-> Tell me whether you need personal use, business integration or OEM redistribution, and ask for pricing and license / activation instructions.
+> Include your intended use and deployment size to discuss pricing, availability and the appropriate licensing / access instructions.
 <!-- full-version-contact:end -->
 
 [Download for Windows x64](https://github.com/TitanCSA/Latency-Inspector/releases/latest) · [Measurement guide](docs/measurements.md) · [Report an issue](https://github.com/TitanCSA/Latency-Inspector/issues)
