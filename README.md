@@ -3,7 +3,11 @@
 <!-- simple-start:start -->
 See Windows timing and load measurements.
 
-**Start here.** Open the guide and start with one measurement. Check what that number measures.
+[First steps](#first-steps) · [Develop](https://github.com/TitanCSA/Latency-Inspector/tree/main) · [Maintain](https://github.com/TitanCSA/sdk-packages/blob/main/CONTRIBUTING.md)
+
+## First steps
+
+Open the guide and start with one measurement. Check what that number measures.
 <!-- simple-start:end -->
 
 <!-- full-version-contact:start -->
